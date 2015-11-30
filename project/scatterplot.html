@@ -4,39 +4,20 @@
 		<title></title>
 		<link rel=stylesheet href=scatterplot.css>
 		<link rel=stylesheet href=../libraries/foundation-6/css/foundation.css>
-
-		<script type="text/javascript" src="../libraries/foundation-6/js/foundation.js" charset="utf-8"></script>
-		<script type="text/javascript" src="../libraries/d3.v3.min.js" charset="utf-8"></script>
 	</head>
 	<body>
-		<div class="top-bar">
-		  <div class="top-bar-left">
-		    <ul class="dropdown menu" data-dropdown-menu>
-		      <li class="menu-text">Site Title</li>
-		      <li class="has-submenu">
-		        <a href="#">One</a>
-		        <ul class="submenu menu vertical" data-submenu>
-		          <li><a href="#">One</a></li>
-		          <li><a href="#">Two</a></li>
-		          <li><a href="#">Three</a></li>
-		        </ul>
-		      </li>
-		      <li><a href="#">Two</a></li>
-		      <li><a href="#">Three</a></li>
-		    </ul>
-		  </div>
-		  <div class="top-bar-right">
-		    <ul class="menu">
-		      <li><input type="search" placeholder="Search"></li>
-		      <li><button type="button" class="button">Search</button></li>
-		    </ul>
-		  </div>
+		<div class="top-bar" data-topbar>
+		    <div class="top-bar-left">
+		      <ul class="dropdown menu" data-dropdown-menu>
+		        <li class="menu-text">Site Title</li>
+		        <li><a href="scatterplot.html">Interactive Tool</a></li>
+		        <li><a href="general_stats.html">General Statistics</a></li>
+		        <li><a href="general_info.html">General Information</a></li>
+		      </ul>
+		    </div>
+		    <div class="top-bar-right">
+		    </div>
 		</div>
-
-		<div id="vis">
-			<svg></svg>
-		</div>
-
 		<div id="container">
 		<div id="selectionUI">
 			xAxis:
@@ -69,7 +50,17 @@
 		</div>
 		</div>
 
+		<div id="vis">
+			<svg></svg>
+		</div>
+
+		<script src="../libraries/foundation-6/js/vendor/jquery.min.js"></script>
+    <script src="../libraries/foundation-6/js/vendor/what-input.min.js"></script>
+    <script src="../libraries/foundation-6/js/foundation.js"></script>
+    <script src="../libraries/foundation-6/js/app.js"></script>
+		<script type="text/javascript" src="../libraries/d3.v3.min.js" charset="utf-8"></script>
 		<script type="text/javascript" src="../libraries/data.js"></script>
 		<script type="text/javascript" src="scatterplot.js"></script>
+		<script type="text/javascript" src="import.js"></script>
 	</body>
 </html>
