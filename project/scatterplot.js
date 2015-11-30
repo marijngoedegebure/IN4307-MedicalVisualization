@@ -4,6 +4,7 @@ var viewHeight = 500;
 var margin = {top: 20, right: 20, bottom: 30, left: 40};
 var width = viewWidth - margin.left - margin.right;
 var height = viewHeight - margin.top - margin.bottom;
+var windowRatio = .5;
 
 var x = d3.scale.linear()
     .range([0, width]);
@@ -22,7 +23,7 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
-    
+
 var xValue = "x";
 var yValue = "y";
 var colorValue = "a";
@@ -51,13 +52,13 @@ legendGradient.append( "stop" )
     .attr( "id", "gradientStop" )
     .attr( "offset", "100%" )
     .style( "stop-opacity", 1);
-    
+
 var points;
 
 function drawScatterplot(v1, v2 ,v3) {
-	
+
   var data = boat_data.boats;
-  
+
   var xExtent = d3.extent(data, function(d) { return d[v1]; });
   var yExtent = d3.extent(data, function(d) { return d[v2]; });
   var zExtent = d3.extent(data, function(d) { return d[v3];});
@@ -65,7 +66,7 @@ function drawScatterplot(v1, v2 ,v3) {
   x.domain(xExtent).nice();
   y.domain(yExtent).nice();
   color.domain(zExtent);
-  
+
   svg.selectAll("g").remove();
 
   svg.append("g")
@@ -104,7 +105,7 @@ function drawScatterplot(v1, v2 ,v3) {
       .attr("cx", function(d) { return x(d[v1]); })
       .attr("cy", function(d) { return y(d[v2]); })
       .style("fill", function(d) { return color(d[v3]); });
-  
+
   svg.select("#gradientStart")
     .style("stop-color", colors[0]);
   svg.select("#gradientStop")
@@ -143,7 +144,7 @@ function drawScatterplot(v1, v2 ,v3) {
 }
 
 function updatePoints(v1, v2 ,v3) {
-  
+
   var xExtent = d3.extent(boat_data.boats, function(d) { return d[v1]; });
   var yExtent = d3.extent(boat_data.boats, function(d) { return d[v2]; });
   var zExtent = d3.extent(boat_data.boats, function(d) { return d[v3]; });
@@ -151,14 +152,14 @@ function updatePoints(v1, v2 ,v3) {
   x.domain(xExtent).nice();
   y.domain(yExtent).nice();
   color.domain(zExtent);
-  
+
   d3.select("#xLabel").text(dataName(v1));
   d3.select("#yLabel").text(dataName(v2));
   d3.select("#colorLabel").text(dataName(v3));
-  
+
   d3.select("#xAxis").call(xAxis);
   d3.select("#yAxis").call(yAxis);
-  
+
   points.transition()
     .duration(750)
     .ease("cubic")
@@ -169,7 +170,7 @@ function updatePoints(v1, v2 ,v3) {
 
 
 function dataName(v) {
-  
+
   if( v == "x")
     return "Latitudinal Position";
   else if( v == "y")
@@ -208,19 +209,18 @@ function selectVariable(id) {
 }
 
 function resize() {
-  
-  viewWidth = window.innerWidth;
-  viewHeight = window.innerHeight-50;
+  viewWidth = parseInt(d3.select('#vis').style('width'));
+  viewHeight = viewWidth * windowRatio;
 
   width = viewWidth - margin.left - margin.right;
-  height = viewHeight - margin.top - margin.bottom;
+  height = viewWidth * windowRatio - margin.top - margin.bottom;
 
   x.range([0, width]);
   y.range([height, 0]);
 
   xAxis.scale(x);
   yAxis.scale(y);
-  
+
   d3.select("#container")
     .attr("width", viewWidth);
 
@@ -231,7 +231,7 @@ function resize() {
   d3.select("svg")
     .attr("width", viewWidth)
     .attr("height", viewHeight);
-  
+
 
   drawScatterplot(xValue, yValue, colorValue);
 }
