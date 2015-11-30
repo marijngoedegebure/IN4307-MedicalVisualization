@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link rel=stylesheet href=scatterplot.css>
+		<script type="text/javascript" src="d3.v3.min.js" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="vis">
+			<svg></svg>
+		</div>
+		
+		<div id="container">
+		<div id="selectionUI">
+			xAxis:
+			<select id="xAxisItem" onchange="selectVariable(0)">
+				<option value="x" selected="selected">Latitudinal Position</option>
+				<option value="y">Longitudinal Position</option>
+				<option value="u">Latitudinal Velocity</option>
+				<option value="v">Longitudinal Velocity</option>
+				<option value="m">Velocity Error</option>
+				<option value="a">Directional Error</option>
+			</select>
+			yAxis:
+			<select id="yAxisItem" onchange="selectVariable(1)">
+				<option value="x">Latitudinal Position</option>
+				<option value="y" selected="selected">Longitudinal Position</option>
+				<option value="u">Latitudinal Velocity</option>
+				<option value="v">Longitudinal Velocity</option>
+				<option value="m">Velocity Error</option>
+				<option value="a">Directional Error</option>
+			</select>
+			Color:
+			<select id="colorItem" onchange="selectVariable(2)">
+				<option value="x">Latitudinal Position</option>
+				<option value="y">Longitudinal Position</option>
+				<option value="u">Latitudinal Velocity</option>
+				<option value="v">Longitudinal Velocity</option>
+				<option value="m">Velocity Error</option>
+				<option value="a" selected="selected">Directional Error</option>
+			</select>
+		</div>
+		</div>
+		
+		<script type="text/javascript" src="data.js"></script>	
+		<script type="text/javascript" src="scatterplot.js"></script>
+	</body>
+</html>
