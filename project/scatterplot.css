@@ -28,3 +28,20 @@ select {
 #selectionUI {
   display: inline-block;
 }
+
+.zurb-footer-bottom {
+  background-color: #333;
+  color: #858585;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.zurb-footer-bottom h5 {
+  color: #858585;
+  font-weight: bold;
+}
+
+.zurb-footer-bottom a {
+  color: #858585;
+  font-weight: bold;
+}
