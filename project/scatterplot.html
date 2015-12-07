@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<title></title>
-		<link rel=stylesheet href=scatterplot.css>
 		<link rel=stylesheet href=../libraries/foundation-6/css/foundation.css>
+		<link rel=stylesheet href=scatterplot.css>
 	</head>
 	<body>
 		<div class="top-bar" data-topbar>
@@ -19,40 +19,29 @@
 		    </div>
 		</div>
 		<div class="row">
-			<div class="small-3 columns">
-				<div id="container">
-				<div id="selectionUI">
-					xAxis:
-					<select id="xAxisItem" onchange="selectVariable(0)">
-						<option value="x" selected="selected">Latitudinal Position</option>
-						<option value="y">Longitudinal Position</option>
-						<option value="u">Latitudinal Velocity</option>
-						<option value="v">Longitudinal Velocity</option>
-						<option value="m">Velocity Error</option>
-						<option value="a">Directional Error</option>
-					</select>
-					yAxis:
-					<select id="yAxisItem" onchange="selectVariable(1)">
-						<option value="x">Latitudinal Position</option>
-						<option value="y" selected="selected">Longitudinal Position</option>
-						<option value="u">Latitudinal Velocity</option>
-						<option value="v">Longitudinal Velocity</option>
-						<option value="m">Velocity Error</option>
-						<option value="a">Directional Error</option>
-					</select>
-					Color:
-					<select id="colorItem" onchange="selectVariable(2)">
-						<option value="x">Latitudinal Position</option>
-						<option value="y">Longitudinal Position</option>
-						<option value="u">Latitudinal Velocity</option>
-						<option value="v">Longitudinal Velocity</option>
-						<option value="m">Velocity Error</option>
-						<option value="a" selected="selected">Directional Error</option>
-					</select>
-				</div>
+			<div class="small-3 columns no-padding-column-class">
+				<ul class="tabs" data-tabs id="example-tabs">
+				  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Tab 1</a></li>
+				  <li class="tabs-title"><a href="#panel2">Tab 2</a></li>
+				  <li class="tabs-title"><a href="#panel3">Tab 3</a></li>
+				</ul>
+
+				<div class="tabs-content" data-tabs-content="example-tabs">
+				  <div class="tabs-panel is-active" id="panel1">
+				    <p>one</p>
+				    <p>Check me out! I'm a super cool Tab panel with text content!</p>
+				  </div>
+				  <div class="tabs-panel" id="panel2">
+				    <p>two</p>
+				    <img class="thumbnail" src="assets/img/rectangle-7.jpg">
+				  </div>
+				  <div class="tabs-panel" id="panel3">
+				    <p>three</p>
+				    <p>Check me out! I'm a super cool Tab panel with text content!</p>
+				  </div>
 				</div>
 			</div>
-			<div class="small-9 columns">
+			<div class="small-9 columns no-padding-column-class">
 				<div id="vis">
 					<svg></svg>
 				</div>

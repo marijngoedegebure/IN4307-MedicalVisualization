@@ -1,5 +1,4 @@
 body {
-  font: 10px sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -36,12 +35,30 @@ select {
   padding: 10px;
 }
 
-.zurb-footer-bottom h5 {
-  color: #858585;
-  font-weight: bold;
+.zurb-footer-bottom {
+  h5 {
+    color: #858585;
+    font-weight: bold;
+  }
 }
 
-.zurb-footer-bottom a {
-  color: #858585;
-  font-weight: bold;
+.zurb-footer-bottom {
+  a {
+    color: #858585;
+    font-weight: bold;
+  }
+}
+
+.no-padding-column-class {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+ul.tabs {
+    text-align: center;
+}
+
+ul.tabs li {
+    float: none !important;
+    display: inline-block;
 }
