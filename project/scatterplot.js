@@ -55,18 +55,18 @@ legendGradient.append( "stop" )
 
 var points;
 
-function drawScatterplot(v1, v2 ,v3) {
-
-  var data = boat_data.boats;
-
-  var xExtent = d3.extent(data, function(d) { return d[v1]; });
-  var yExtent = d3.extent(data, function(d) { return d[v2]; });
-  var zExtent = d3.extent(data, function(d) { return d[v3];});
+function drawScatterplot() {
+	
+  var data = tsne_data.nodes;
+  
+  var xExtent = d3.extent(data, function(d) { return d.tsneX; });
+  var yExtent = d3.extent(data, function(d) { return d.tsneY; });
+  var zExtent = d3.extent(data, function(d) { return d.expression[5];});
 
   x.domain(xExtent).nice();
   y.domain(yExtent).nice();
   color.domain(zExtent);
-
+  
   svg.selectAll("g").remove();
 
   svg.append("g")
@@ -80,7 +80,7 @@ function drawScatterplot(v1, v2 ,v3) {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text(dataName(v1));
+      .text("tSNE 1");
 
   svg.append("g")
       .attr("id", "yAxis")
@@ -93,7 +93,7 @@ function drawScatterplot(v1, v2 ,v3) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text(dataName(v2));
+      .text("tSNE 2");
 
   points = svg.append("g")
       .attr("class", "plotArea")
@@ -102,10 +102,10 @@ function drawScatterplot(v1, v2 ,v3) {
     .enter().append("circle")
       .attr("class", "dot")
       .attr("r", 3.5)
-      .attr("cx", function(d) { return x(d[v1]); })
-      .attr("cy", function(d) { return y(d[v2]); })
-      .style("fill", function(d) { return color(d[v3]); });
-
+      .attr("cx", function(d) { return x(d.tsneX); })
+      .attr("cy", function(d) { return y(d.tsneY); })
+      .style("fill", function(d) { return color(d.expression[5]); });
+  
   svg.select("#gradientStart")
     .style("stop-color", colors[0]);
   svg.select("#gradientStop")
@@ -140,14 +140,14 @@ function drawScatterplot(v1, v2 ,v3) {
       .attr("y", 82)
       .attr("dy", ".35em")
       .style("text-anchor", "end")
-      .text(dataName(v3));
+      .text("Expression CD4");
 }
 
 function updatePoints(v1, v2 ,v3) {
 
-  var xExtent = d3.extent(boat_data.boats, function(d) { return d[v1]; });
-  var yExtent = d3.extent(boat_data.boats, function(d) { return d[v2]; });
-  var zExtent = d3.extent(boat_data.boats, function(d) { return d[v3]; });
+  var xExtent = d3.extent(tsne_data.nodes, function(d) { return d[v1]; });
+  var yExtent = d3.extent(tsne_data.nodes, function(d) { return d[v2]; });
+  var zExtent = d3.extent(tsne_data.nodes, function(d) { return d[v3]; });
 
   x.domain(xExtent).nice();
   y.domain(yExtent).nice();
