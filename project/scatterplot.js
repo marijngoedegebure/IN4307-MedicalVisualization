@@ -87,7 +87,6 @@ function drawScatterplot() {
       .attr("r", 3.5)
       .attr("cx", function(d) { return x(d.tsneX); })
       .attr("cy", function(d) { return y(d.tsneY); })
-      .style("fill", function(d) { return color(d.expression[5]); });
 }
 
 function updatePoints(v1, v2 ,v3) {
@@ -112,7 +111,6 @@ function updatePoints(v1, v2 ,v3) {
     .ease("cubic")
     .attr("cx", function(d) { return x(d[v1]); })
     .attr("cy", function(d) { return y(d[v2]); })
-    .style("fill", function(d) { return color(d[v3]); });
 }
 
 
