@@ -36,23 +36,6 @@ var svg = d3.select("svg")
 
 var defs = svg.append( "defs" );
 
-var legendGradient = defs.append( "linearGradient" )
-    .attr( "id", "legendGradient" )
-    .attr( "x1", "0" )
-    .attr( "x2", "0" )
-    .attr( "y1", "1" )
-    .attr( "y2", "0" );
-
-legendGradient.append( "stop" )
-    .attr( "id", "gradientStart" )
-    .attr( "offset", "0%" )
-    .style( "stop-opacity", 1);
-
-legendGradient.append( "stop" )
-    .attr( "id", "gradientStop" )
-    .attr( "offset", "100%" )
-    .style( "stop-opacity", 1);
-
 var points;
 
 function drawScatterplot() {
@@ -105,42 +88,6 @@ function drawScatterplot() {
       .attr("cx", function(d) { return x(d.tsneX); })
       .attr("cy", function(d) { return y(d.tsneY); })
       .style("fill", function(d) { return color(d.expression[5]); });
-  
-  svg.select("#gradientStart")
-    .style("stop-color", colors[0]);
-  svg.select("#gradientStop")
-    .style("stop-color", colors[1]);
-
-  var legend = svg.append("g")
-      .attr("class", "legend");
-
-  legend.append("rect")
-      .attr("x", width - 18)
-      .attr("width", 18)
-      .attr("height", 72)
-      .style("fill", "url(#legendGradient)");
-
-  legend.append("text")
-      .attr("x", width - 22)
-      .attr("y", 6)
-      .attr("dy", ".35em")
-      .style("text-anchor", "end")
-      .text("high");
-
-  legend.append("text")
-      .attr("x", width - 22)
-      .attr("y", 66)
-      .attr("dy", ".35em")
-      .style("text-anchor", "end")
-      .text("low");
-
-  legend.append("text")
-      .attr("id", "colorLabel")
-      .attr("x", width)
-      .attr("y", 82)
-      .attr("dy", ".35em")
-      .style("text-anchor", "end")
-      .text("Expression CD4");
 }
 
 function updatePoints(v1, v2 ,v3) {
