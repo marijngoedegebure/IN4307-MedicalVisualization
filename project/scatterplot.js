@@ -53,6 +53,16 @@ function drawScatterplot() {
       .attr("r", 3.5)
       .attr("cx", function(d) { return x(d.tsneX); })
       .attr("cy", function(d) { return y(d.tsneY); })
+    .on("mouseover", function(d) {
+          tooltip.transition()
+               .duration(200);
+          tooltip.html(d["tag"]);
+        })
+    .on("mouseout", function(d) {
+          tooltip.transition()
+               .duration(500);
+          tooltip.html("");
+    });
 }
 
 function updatePoints(v1, v2 ,v3) {

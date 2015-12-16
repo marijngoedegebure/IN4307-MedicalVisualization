@@ -20,37 +20,50 @@
 		</div>
 		<div class="row row-background">
 			<div class="small-3 columns no-padding-column-class">
-				<ul class="tabs" data-tabs id="example-tabs">
-				  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Clusters</a></li>
-				  <li class="tabs-title"><a href="#panel2">Selection</a></li>
-				  <li class="tabs-title"><a href="#panel3">Settings</a></li>
-				</ul>
+				<div class="row">
+					<div class="columns small-12">
+						<ul class="tabs" data-tabs id="example-tabs">
+						  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Clusters</a></li>
+						  <li class="tabs-title"><a href="#panel2">Selection</a></li>
+						  <li class="tabs-title"><a href="#panel3">Settings</a></li>
+						</ul>
 
-				<div class="tabs-content" data-tabs-content="example-tabs">
-				  <div class="tabs-panel is-active" id="panel1">
-				    <p>Clusters</p>
-				  </div>
-				  <div class="tabs-panel" id="panel2">
-				    <p>Selection</p>
-				  </div>
-				  <div class="tabs-panel" id="panel3">
-						<div class="row">
-							<div class="columns small-2">
-								<p>1</p>
-							</div>
-							<div class="columns small-2">
-								<p>60</p>
+						<div class="tabs-content" data-tabs-content="example-tabs">
+						  <div class="tabs-panel is-active" id="panel1">
+						    <p>Clusters</p>
+						  </div>
+						  <div class="tabs-panel" id="panel2">
+						    <p>Selection</p>
+						  </div>
+						  <div class="tabs-panel" id="panel3">
+								<div class="row">
+									<div class="columns small-2">
+										<p>1</p>
+									</div>
+									<div class="columns small-2">
+										<p>60</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="columns small-12">
+										<div class="slider" data-slider data-initial-start="20" start="1" end="60">
+									    <span class="slider-handle"  data-slider-handle role="slider" tabindex="1"></span>
+									    <span class="slider-fill" data-slider-fill></span>
+									  </div>
+									</div>
+								</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="columns small-12">
+						<div class="own-tooltip">
+							<p>Mouseover:</p>
+							<div class="tooltip-content">
 							</div>
 						</div>
-						<div class="row">
-							<div class="columns small-12">
-								<div class="slider" data-slider data-initial-start="20" start="1" end="60">
-							    <span class="slider-handle"  data-slider-handle role="slider" tabindex="1"></span>
-							    <span class="slider-fill" data-slider-fill></span>
-							  </div>
-							</div>
-						</div>
-				  </div>
+					</div>
 				</div>
 			</div>
 			<div class="small-9 columns visualization">
