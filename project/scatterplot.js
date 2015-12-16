@@ -30,6 +30,8 @@ var defs = svg.append( "defs" );
 
 var points;
 
+var tooltip = d3.select('.tooltip-content');
+
 function drawScatterplot() {
 	
   var data = tsne_data.nodes;

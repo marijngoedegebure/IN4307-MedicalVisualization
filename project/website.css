@@ -54,6 +54,18 @@ select {
   padding-right: 7px;
 }
 
+.own-tooltip {
+  border-width : 1px;
+  border-style:solid;
+  border-color: #e6e6e6;
+  background-color: #fff;
+  padding:16px;
+}
+
+.tabs-title > a {
+  padding:1rem 1rem;
+}
+
 .row-background {
   background-color: #ddd;
 }
