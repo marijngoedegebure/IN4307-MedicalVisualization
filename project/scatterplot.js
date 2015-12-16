@@ -16,14 +16,6 @@ var colors = ["blue", "red"];
 var color = d3.scale.linear()
     .range(colors);
 
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
-
 var xValue = "x";
 var yValue = "y";
 var colorValue = "a";
@@ -49,34 +41,8 @@ function drawScatterplot() {
   x.domain(xExtent).nice();
   y.domain(yExtent).nice();
   color.domain(zExtent);
-  
+
   svg.selectAll("g").remove();
-
-  svg.append("g")
-      .attr("id", "xAxis")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
-    .append("text")
-      .attr("class", "label")
-      .attr("id", "xLabel")
-      .attr("x", width)
-      .attr("y", -6)
-      .style("text-anchor", "end")
-      .text("tSNE 1");
-
-  svg.append("g")
-      .attr("id", "yAxis")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("class", "label")
-      .attr("id", "yLabel")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("tSNE 2");
 
   points = svg.append("g")
       .attr("class", "plotArea")
@@ -162,9 +128,6 @@ function resize() {
 
   x.range([0, width]);
   y.range([height, 0]);
-
-  xAxis.scale(x);
-  yAxis.scale(y);
 
   d3.select("#container")
     .attr("width", viewWidth);
