@@ -21,23 +21,35 @@
 		<div class="row">
 			<div class="small-3 columns no-padding-column-class">
 				<ul class="tabs" data-tabs id="example-tabs">
-				  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Tab 1</a></li>
-				  <li class="tabs-title"><a href="#panel2">Tab 2</a></li>
-				  <li class="tabs-title"><a href="#panel3">Tab 3</a></li>
+				  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Clusters</a></li>
+				  <li class="tabs-title"><a href="#panel2">Selection</a></li>
+				  <li class="tabs-title"><a href="#panel3">Settings</a></li>
 				</ul>
 
 				<div class="tabs-content" data-tabs-content="example-tabs">
 				  <div class="tabs-panel is-active" id="panel1">
-				    <p>one</p>
-				    <p>Check me out! I'm a super cool Tab panel with text content!</p>
+				    <p>Clusters</p>
 				  </div>
 				  <div class="tabs-panel" id="panel2">
-				    <p>two</p>
-				    <img class="thumbnail" src="assets/img/rectangle-7.jpg">
+				    <p>Selection</p>
 				  </div>
 				  <div class="tabs-panel" id="panel3">
-				    <p>three</p>
-				    <p>Check me out! I'm a super cool Tab panel with text content!</p>
+						<div class="row">
+							<div class="columns small-2">
+								<p>1</p>
+							</div>
+							<div class="columns small-2">
+								<p>60</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="columns small-12">
+								<div class="slider" data-slider data-initial-start="20" start="1" end="60">
+							    <span class="slider-handle"  data-slider-handle role="slider" tabindex="1"></span>
+							    <span class="slider-fill" data-slider-fill></span>
+							  </div>
+							</div>
+						</div>
 				  </div>
 				</div>
 			</div>
@@ -55,6 +67,7 @@
 		<script type="text/javascript" src="../libraries/d3.v3.min.js" charset="utf-8"></script>
 		<script type="text/javascript" src="../libraries/data.js"></script>
 		<script type="text/javascript" src="scatterplot.js"></script>
+		<script type="text/javascript" src="interactive_tool.js"></script>
 	</body>
 	<div class="zurb-footer-bottom">
 		<div class="row">
