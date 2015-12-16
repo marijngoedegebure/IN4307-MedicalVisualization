@@ -50,6 +50,16 @@ select {
 }
 
 .no-padding-column-class {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.row-background {
+  background-color: #ddd;
+}
+
+.visualization {
+  background-color: #fff;
   padding-left: 2px;
   padding-right: 2px;
 }
