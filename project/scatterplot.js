@@ -1,7 +1,7 @@
 var viewWidth = 500;
 var viewHeight = 500;
 
-var margin = {top: 20, right: 20, bottom: 30, left: 40};
+var margin = {top: 10, right: 10, bottom: 10, left: 10};
 var width = viewWidth - margin.left - margin.right;
 var height = viewHeight - margin.top - margin.bottom;
 var windowRatio = .5;
@@ -21,16 +21,20 @@ var yValue = "y";
 var colorValue = "a";
 
 var svg = d3.select("svg")
-    .attr("width", viewWidth)
-    .attr("height", viewHeight)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  .attr("width", viewWidth)
+  .attr("height", viewHeight)
+.append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var defs = svg.append( "defs" );
 
 var points;
 
 var tooltip = d3.select('.tooltip-content');
+
+
+var mouse_down = false;
+var mouse_down_coords;
 
 function drawScatterplot() {
 	
@@ -65,6 +69,78 @@ function drawScatterplot() {
                .duration(500);
           tooltip.html("");
     });
+
+    d3.select(".plotArea").append('svg:rect')
+    .attr('width', width) // the whole width of g/svg
+    .attr('height', height) // the whole heigh of g/svg
+    .attr('fill', 'none')
+    .attr('pointer-events', 'all')
+    .on('mousedown', function() {
+        console.log("Mouse down event");
+        svg.selectAll(".drag-and-select").remove();
+
+        mouse_down = true;
+        mouse_down_coords = d3.mouse(this);
+
+        svg.append("rect")
+        .attr("class", "drag-and-select")
+        .attr("x", Math.round(mouse_down_coords[0]))
+        .attr("y", Math.round(mouse_down_coords[1]))
+        .attr("width", 0)
+        .attr("height", 0)
+        .on('mouseup', function() {
+          console.log("Mouse up event");
+          mouse_down = false;
+        });
+      })
+    .on("mousemove", function() {
+      if(mouse_down) {
+        mouseMoveHandle(d3.mouse(this));
+        console.log("mouse_down_coords" + mouse_down_coords[0] + ", " + mouse_down_coords[1]);
+        console.log("current_coords" + d3.mouse(this)[0] + ", " + d3.mouse(this)[1]);
+      }
+    })
+    .on("mouseup", function() {
+      console.log("Mouse up event");
+      mouse_down = false;
+    });
+}
+
+function mouseMoveHandle(current_coords) {
+  var w, h, x, y = 0;
+  if (current_coords[0] < mouse_down_coords[0] && current_coords[1] < mouse_down_coords[1]) {
+    x = current_coords[0];
+    y = current_coords[1];
+    w = Math.round(mouse_down_coords[0] - current_coords[0]);
+    h = Math.round( mouse_down_coords[1] - current_coords[1]);
+  }
+  else if (current_coords[0] < mouse_down_coords[0] && current_coords[1] > mouse_down_coords[1]) {
+    x = current_coords[0];
+    y = mouse_down_coords[1];
+    w = Math.round(mouse_down_coords[0] - current_coords[0]);
+    h = Math.round(current_coords[1] - mouse_down_coords[1]);
+  }
+  else if (current_coords[0] > mouse_down_coords[0] && current_coords[1] < mouse_down_coords[1]) {
+    x = mouse_down_coords[0];
+    y = current_coords[1];
+    w = Math.round(current_coords[0] - mouse_down_coords[0]);
+    h = Math.round(mouse_down_coords[1] - current_coords[1]);
+  }
+  else {
+    x = mouse_down_coords[0];
+    y = mouse_down_coords[1];
+    w = Math.round(current_coords[0] - mouse_down_coords[0]);
+    h = Math.round(current_coords[1] - mouse_down_coords[1]);
+  }
+  adjustSelectionBox(w, h, x, y);
+}
+
+function adjustSelectionBox(width, height, x, y) {
+  d3.select(".drag-and-select")
+  .attr("width", width)
+  .attr("height", height)
+  .attr("x", x)
+  .attr("y", y);
 }
 
 function updatePoints(v1, v2 ,v3) {
