@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link rel=stylesheet href=../libraries/foundation-6/css/foundation.css>
+		<link rel=stylesheet href=scatterplot.css>
+	</head>
+	<body>
+		<div class="top-bar" data-topbar>
+		    <div class="top-bar-left">
+		      <ul class="dropdown menu" data-dropdown-menu>
+		        <li class="menu-text">Medical Visualization</li>
+		        <li><a href="scatterplot.html">Interactive Tool</a></li>
+		        <li><a href="general_stats.html">General Statistics</a></li>
+		        <li><a href="general_info.html">General Information</a></li>
+		      </ul>
+		    </div>
+		    <div class="top-bar-right">
+		    </div>
+		</div>
+		<div class="row">
+			<div class="small-3 columns no-padding-column-class">
+				<ul class="tabs" data-tabs id="example-tabs">
+				  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Tab 1</a></li>
+				  <li class="tabs-title"><a href="#panel2">Tab 2</a></li>
+				  <li class="tabs-title"><a href="#panel3">Tab 3</a></li>
+				</ul>
+
+				<div class="tabs-content" data-tabs-content="example-tabs">
+				  <div class="tabs-panel is-active" id="panel1">
+				    <p>one</p>
+				    <p>Check me out! I'm a super cool Tab panel with text content!</p>
+				  </div>
+				  <div class="tabs-panel" id="panel2">
+				    <p>two</p>
+				    <img class="thumbnail" src="assets/img/rectangle-7.jpg">
+				  </div>
+				  <div class="tabs-panel" id="panel3">
+				    <p>three</p>
+				    <p>Check me out! I'm a super cool Tab panel with text content!</p>
+				  </div>
+				</div>
+			</div>
+			<div class="small-9 columns no-padding-column-class">
+				<div id="vis">
+					<svg></svg>
+				</div>
+			</div>
+		</div>
+
+		<script src="../libraries/foundation-6/js/vendor/jquery.min.js"></script>
+    <script src="../libraries/foundation-6/js/vendor/what-input.min.js"></script>
+    <script src="../libraries/foundation-6/js/foundation.js"></script>
+    <script src="../libraries/foundation-6/js/app.js"></script>
+		<script type="text/javascript" src="../libraries/d3.v3.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../libraries/data.js"></script>
+		<script type="text/javascript" src="scatterplot.js"></script>
+	</body>
+	<div class="zurb-footer-bottom">
+		<div class="row">
+			<div class="small-6 columns">
+				<h5>Made by:</h5>
+				<p>Marijn Goedegebure & Maikel Langezaal</p>
+			</div>
+			<div class="small-6 columns">
+				<h5>In assignment of:</h5>
+				<a href="www.tudelft.nl">TU Delft</p>
+			</div>
+		</div>
+	</div>
+</html>
