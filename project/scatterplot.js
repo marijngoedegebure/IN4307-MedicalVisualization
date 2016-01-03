@@ -89,21 +89,44 @@ function drawScatterplot() {
         .attr("width", 0)
         .attr("height", 0)
         .on('mouseup', function() {
-          console.log("Mouse up event");
-          mouse_down = false;
+          mouseUpHandler();
         });
       })
     .on("mousemove", function() {
       if(mouse_down) {
         mouseMoveHandle(d3.mouse(this));
-        console.log("mouse_down_coords" + mouse_down_coords[0] + ", " + mouse_down_coords[1]);
-        console.log("current_coords" + d3.mouse(this)[0] + ", " + d3.mouse(this)[1]);
       }
     })
     .on("mouseup", function() {
-      console.log("Mouse up event");
-      mouse_down = false;
+      mouseUpHandler();
     });
+}
+
+function mouseUpHandler() {
+  console.log("Mouse up event");
+  mouse_down = false;
+  // Check which points are inside the selection box
+  d3.selectAll(".dot")
+    .filter(function(element, index, array) {
+      return insideRectangleCheck(element);
+    })
+    .classed("selected", true)
+    .style("fill", "red");
+  svg.selectAll(".drag-and-select").remove();
+}
+
+function insideRectangleCheck(element) {
+  var rectangle = d3.select(".drag-and-select");
+  rect_x = parseFloat(rectangle.attr("x"));
+  rect_y = parseFloat(rectangle.attr("y"));
+  rect_w = parseFloat(rectangle.attr("width"));
+  rect_h = parseFloat(rectangle.attr("height"));
+  elem_x = x(element.tsneX);
+  elem_y = y(element.tsneY);
+  if (rect_x < elem_x && rect_y < elem_y && rect_x+rect_w > elem_x && rect_y+rect_h > elem_y) {
+    return true;
+  }
+  return false;
 }
 
 function mouseMoveHandle(current_coords) {
