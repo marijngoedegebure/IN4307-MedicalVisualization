@@ -5,7 +5,7 @@
 		<link rel=stylesheet href=../libraries/foundation-6/css/foundation.css>
 		<link rel=stylesheet href=website.css>
 	</head>
-	<body>
+	<body onload = reDraw()>
 		<div class="top-bar" data-topbar>
 		    <div class="top-bar-left">
 		      <ul class="dropdown menu" data-dropdown-menu>
@@ -31,6 +31,24 @@
 						<div class="tabs-content" data-tabs-content="example-tabs">
 						  <div class="tabs-panel is-active" id="panel1">
 						    <p>Clusters</p>
+							<div class="row">
+							</div>
+							<div class="row">
+								<div class="columns small-12">
+									<select onchange="reDraw()" id="amountOfClusters">
+										<option value=1>1</option>
+										<option value=2>2</option>
+										<option value=3>3</option>
+										<option value=4>4</option>
+										<option value=5>5</option>
+										<option value=6>6</option>
+										<option value=7>7</option>
+										<option value=8>8</option>
+										<option value=9>9</option>
+										<option value=10>10</option>
+									</select>
+								</div>
+							</div>
 						  </div>
 						  <div class="tabs-panel" id="panel2">
 						    <p>Selection</p>
@@ -40,16 +58,17 @@
 									<div class="columns small-2">
 										<p>1</p>
 									</div>
+									<span id="mySlider"></span>
 									<div class="columns small-2">
-										<p>60</p>
+										<p>10</p>
 									</div>
 								</div>
 								<div class="row">
 									<div class="columns small-12">
-										<div class="slider" data-slider data-initial-start="20" start="1" end="60">
-									    <span class="slider-handle"  data-slider-handle role="slider" tabindex="1"></span>
-									    <span class="slider-fill" data-slider-fill></span>
-									  </div>
+										<div class="slider" data-slider data-initial-start="10" start="1" end="10">
+											<span class="slider-handle"  data-slider-handle role="slider" tabindex="1"></span>
+											<span class="slider-fill" data-slider-fill></span>
+										</div>
 									</div>
 								</div>
 						  </div>
