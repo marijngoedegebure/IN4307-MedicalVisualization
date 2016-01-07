@@ -71,9 +71,13 @@ select {
 }
 
 .visualization {
-  background-color: #fff;
+  background-color: #ddd;
   padding-left: 2px;
   padding-right: 2px;
+}
+
+#vis {
+  background-color: #ddd;
 }
 
 ul.tabs {
@@ -83,4 +87,12 @@ ul.tabs {
 ul.tabs li {
     float: none !important;
     display: inline-block;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
 }

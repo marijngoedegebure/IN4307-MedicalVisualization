@@ -50,56 +50,48 @@ function drawScatterplot() {
 
   svg.selectAll("g").remove();
 
-  points = svg.append("g")
-      .attr("class", "plotArea")
-    .selectAll(".dot")
-      .data(data)
-    .enter().append("circle")
-      .attr("class", "dot")
-      .attr("r", 3.5)
-      .attr("cx", function(d) { return x(d.tsneX); })
-      .attr("cy", function(d) { return y(d.tsneY); })
-    .on("mouseover", function(d) {
-          tooltip.transition()
-               .duration(200);
-          tooltip.html(d["tag"]);
-        })
-    .on("mouseout", function(d) {
-          tooltip.transition()
-               .duration(500);
-          tooltip.html("");
-    });
+  svg.append('svg:rect')
+  .attr('width', width) // the whole width of g/svg
+  .attr('height', height) // the whole heigh of g/svg
+  .attr("fill", "white")
+  .attr('pointer-events', 'all')
+  .on('mousedown', function() {
+      console.log("Mouse down event");
+      svg.selectAll(".drag-and-select").remove();
 
-    d3.select(".plotArea").append('svg:rect')
-    .attr('width', width) // the whole width of g/svg
-    .attr('height', height) // the whole heigh of g/svg
-    .attr('fill', 'none')
-    .attr('pointer-events', 'all')
-    .on('mousedown', function() {
-        console.log("Mouse down event");
-        svg.selectAll(".drag-and-select").remove();
+      mouse_down = true;
+      mouse_down_coords = d3.mouse(this);
 
-        mouse_down = true;
-        mouse_down_coords = d3.mouse(this);
-
-        svg.append("rect")
-        .attr("class", "drag-and-select")
-        .attr("x", Math.round(mouse_down_coords[0]))
-        .attr("y", Math.round(mouse_down_coords[1]))
-        .attr("width", 0)
-        .attr("height", 0)
-        .on('mouseup', function() {
-          mouseUpHandler();
-        });
-      })
-    .on("mousemove", function() {
-      if(mouse_down) {
-        mouseMoveHandle(d3.mouse(this));
-      }
+      svg.append("rect")
+      .attr("class", "drag-and-select")
+      .attr("x", Math.round(mouse_down_coords[0]))
+      .attr("y", Math.round(mouse_down_coords[1]))
+      .attr("width", 0)
+      .attr("height", 0)
+      .on('mouseup', function() {
+        mouseUpHandler();
+      });
     })
-    .on("mouseup", function() {
-      mouseUpHandler();
-    });
+  .on("mousemove", function() {
+    if(mouse_down) {
+      mouseMoveHandle(d3.mouse(this));
+    }
+  })
+  .on("mouseup", function() {
+    mouseUpHandler();
+  });
+
+  points = svg.append("g")
+    .attr("class", "plotArea")
+    .selectAll(".dot")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("class", "dot")
+    .attr("r", 3.5)
+    .attr("cx", function(d) { return x(d.tsneX); })
+    .attr("cy", function(d) { return y(d.tsneY); })
+    .attr("fill", "black");
 }
 
 function mouseUpHandler() {
@@ -112,6 +104,8 @@ function mouseUpHandler() {
     })
     .classed("selected", true)
     .style("fill", "red");
+  UpdateSelectionCounter();
+  UpdateTooltip();
   svg.selectAll(".drag-and-select").remove();
 }
 

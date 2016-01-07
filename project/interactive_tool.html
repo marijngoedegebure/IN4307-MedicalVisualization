@@ -34,9 +34,11 @@
 						  </div>
 						  <div class="tabs-panel" id="panel2">
 						    <p>Selection</p>
+								<p id='selected_count_text'>Number of selected points:</p>
 								<input class="button" type="button" value="Clear selection" onclick="ClearSelection();">
 						  </div>
 						  <div class="tabs-panel" id="panel3">
+								<p>Size of points</p>
 								<div class="row">
 									<div class="columns small-2">
 										<p>1</p>
@@ -57,19 +59,23 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="columns small-12">
-						<div class="own-tooltip">
-							<p>Mouseover:</p>
-							<div class="tooltip-content">
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 			<div class="small-9 columns visualization">
 				<div id="vis">
 					<svg></svg>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="nothing-selected show">
+				<h3>Selection inspector</h3>
+				<p>Please select a cluster or elements to view more information on them.</p>
+			</div>
+
+			<div class="elements-are-selected hide">
+				<h3>Selection inspector</h3>
+				<div class="tooltip-content">
+
 				</div>
 			</div>
 		</div>
