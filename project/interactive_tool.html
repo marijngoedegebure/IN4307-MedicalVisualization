@@ -5,7 +5,7 @@
 		<link rel=stylesheet href=../libraries/foundation-6/css/foundation.css>
 		<link rel=stylesheet href=website.css>
 	</head>
-	<body onload = reDraw()>
+	<body>
 		<div class="top-bar" data-topbar>
 		    <div class="top-bar-left">
 		      <ul class="dropdown menu" data-dropdown-menu>
@@ -35,7 +35,7 @@
 							</div>
 							<div class="row">
 								<div class="columns small-12">
-									<select onchange="reDraw()" id="amountOfClusters">
+									<select onchange="drawScatterplot()" id="amountOfClusters">
 										<option value=1>1</option>
 										<option value=2>2</option>
 										<option value=3>3</option>
