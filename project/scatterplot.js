@@ -146,8 +146,8 @@ function drawClusters() {
 		.attr({
 			class : 
 			function (d, i) {
-				if(d3.select(this).classed("selection")) 
-					return "selection" + " " + "dot" + " " + clusterColor[clusterC[i]];
+				if(d3.select(this).classed("selected")) 
+					return "selected" + " " + "dot" + " " + clusterColor[clusterC[i]];
 				else
 					return "dot" + " " + clusterColor[clusterC[i]];
 			}
@@ -257,8 +257,8 @@ function calDistance() {
 		.attr({
 			class : 
 			function (d, i) {
-				if(d3.select(this).classed("selection")) 
-					return "selection" + " " + "dot" + " " + clusterColor[clusterC[i]];
+				if(d3.select(this).classed("selected")) 
+					return "selected" + " " + "dot" + " " + clusterColor[clusterC[i]];
 				else
 					return "dot" + " " + clusterColor[clusterC[i]];
 			}
