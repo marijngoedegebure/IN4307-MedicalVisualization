@@ -4,8 +4,8 @@ var viewHeight = 500;
 var e = document.getElementById("amountOfClusters");
 var clusterNum = e.options[e.selectedIndex].value
 
-var clusterColor = ['#a00', '#aa0', '#0a0', '#00a', '#0aa','#7fffd4', '#8b2323', '#ff7f24', '#ff1493', '#c0ff3e'];
-var centroidColor = ['#f00', '#ff0', '#0f0', '#00f', '#0ff','#7fffd4', '#8b2323', '#ff7f24', '#ff1493', '#c0ff3e'];
+var clusterColor = ['purple', 'lime', 'blue', 'orangeRed', 'yellow','cyan', 'darkgreen', 'orange', 'silver', 'goldenrod', 'violet'];
+var centroidColor = ['purple', 'lime', 'blue', 'orangeRed', 'yellow','cyan', 'darkgreen', 'orange', 'silver', 'goldenrod', 'violet'];
 var clusterC = [];
 
 var finish = false;
@@ -83,40 +83,43 @@ function drawScatterplot() {
     .attr("class", "dot")
     .attr("r", 3.5)
     .attr("cx", function(d) { return x_scale(d.tsneX); })
-    .attr("cy", function(d) { return y_scale(d.tsneY); });
+    .attr("cy", function(d) { return y_scale(d.tsneY); })
+	.on("click", function() {
+		  clusterInfo(d3.select(this).attr("class"))
+	 });
 
-		svg.append('svg:rect')
-		.attr('class', 'mouse_rect')
-	  .attr('width', width) // the whole width of g/svg
-	  .attr('height', height) // the whole heigh of g/svg
-	  .attr("fill", "white")
-		.attr("opacity", "0.0")
-	  .attr('pointer-events', 'all')
-	  .on('mousedown', function() {
-	      console.log("Mouse down event");
-	      svg.selectAll(".drag-and-select").remove();
-
-	      mouse_down = true;
-	      mouse_down_coords = d3.mouse(this);
-	      d3.select('.plotArea').append("rect")
-	      .attr("class", "drag-and-select")
-	      .attr("x", Math.round(mouse_down_coords[0]))
-	      .attr("y", Math.round(mouse_down_coords[1]))
-	      .attr("width", 0)
-	      .attr("height", 0)
-				.attr("opacity", 0.5);
-	  })
-	  .on('mouseup', function() {
-	      mouseUpHandler();
-	  })
-	  .on("mousemove", function() {
-	    if(mouse_down) {
-	      mouseMoveHandle(d3.mouse(this));
-	    }
-	  })
-	  .on("mouseup", function() {
-	    mouseUpHandler();
-	  });
+  svg.append('svg:rect')
+	.attr('class', 'mouse_rect')
+	.attr('width', width) // the whole width of g/svg
+	.attr('height', height) // the whole heigh of g/svg
+	.attr("fill", "white")
+	.attr("opacity", "0.0")
+	.attr("display", "none")
+	.attr('pointer-events', 'all')
+	.on('mousedown', function() {
+	  console.log("Mouse down event");
+	  svg.selectAll(".drag-and-select").remove();
+	  mouse_down = true;
+	  mouse_down_coords = d3.mouse(this);
+	  d3.select('.plotArea').append("rect")
+	  .attr("class", "drag-and-select")
+	  .attr("x", Math.round(mouse_down_coords[0]))
+	  .attr("y", Math.round(mouse_down_coords[1]))
+	  .attr("width", 0)
+	  .attr("height", 0)
+			.attr("opacity", 0.5);
+	})
+	.on('mouseup', function() {
+	  mouseUpHandler();
+	})
+	.on("mousemove", function() {
+	if(mouse_down) {
+	  mouseMoveHandle(d3.mouse(this));
+	}
+	})
+	.on("mouseup", function() {
+	mouseUpHandler();
+	});
 
 	recalculateClusters();
 }
@@ -147,7 +150,7 @@ function drawClusters() {
 			class : 
 			function (d, i) {
 				if(d3.select(this).classed("selected")) 
-					return "selected" + " " + "dot" + " " + clusterColor[clusterC[i]];
+					return "dot" + " " + clusterColor[clusterC[i]] + " " + "selected";
 				else
 					return "dot" + " " + clusterColor[clusterC[i]];
 			}
@@ -332,6 +335,11 @@ function adjustSelectionBox(width, height, x, y) {
   .attr("height", height)
   .attr("x", x)
   .attr("y", y);
+}
+
+function clusterInfo(classes) {
+	classname = ('.'.concat(classes.split(" ")[1]));
+	d3.selectAll(classname);
 }
 
 function resize() {

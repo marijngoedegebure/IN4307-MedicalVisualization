@@ -50,6 +50,13 @@ function GetMode() {
 }
 
 function SwitchModes(new_mode) {
+  if(new_mode === 'Selection') {
+	  d3.select('.mouse_rect')
+		.attr("display", "")
+  } else {
+	  d3.select('.mouse_rect')
+		.attr("display", "none")
+  }
   mode = new_mode;
   reFillPoints();
   UpdateInspector();
