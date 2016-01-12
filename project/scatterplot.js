@@ -137,8 +137,11 @@ function drawClusters() {
 				return clusterColor[clusterC[i]]
 			;}
 		})
-		.attr("class", function (d, i) {
-			return d3.select(this).attr("class") + clusterColor[clusterC[i]];
+		.attr({
+			class : 
+			function (d, i) {
+				return d3.select(this).attr("class") + " " + clusterColor[clusterC[i]];
+			}
 		});
 }
 
