@@ -8,10 +8,15 @@ function UpdateSelectionCounter() {
 }
 
 function ClearSelection() {
-    d3.selectAll('.selected').classed("selected", false).style("fill", "black");;
+    d3.selectAll('.selected').classed("selected", false).style("fill", "black");
     $('.inspector-content').empty();
     hideInspector();
     UpdateSelectionCounter();
+}
+
+function RemoveClusters() {
+    e = document.getElementById("amountOfClusters").value = 1;
+	recalculateClusters();
 }
 
 function hideInspector() {
