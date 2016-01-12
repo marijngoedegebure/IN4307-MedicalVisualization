@@ -40,7 +40,7 @@ var defs = svg.append( "defs" );
 
 var points;
 
-var tooltip = d3.select('.tooltip-content');
+var inspector = d3.select('.inspector-content');
 
 var data;
 
@@ -279,7 +279,7 @@ function mouseUpHandler() {
     .classed("selected", true);
 	reFillPoints();
   UpdateSelectionCounter();
-  UpdateTooltip();
+  UpdateInspector();
   svg.selectAll(".drag-and-select").remove();
 }
 

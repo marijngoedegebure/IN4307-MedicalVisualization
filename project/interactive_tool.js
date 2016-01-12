@@ -9,24 +9,40 @@ function UpdateSelectionCounter() {
 
 function ClearSelection() {
     d3.selectAll('.selected').classed("selected", false).style("fill", "black");;
-    $('.tooltip-content').empty();
-    $('.elements-are-selected').addClass('hide').removeClass('show');
-    $('.nothing-selected').addClass('show').removeClass('hide');
+    $('.inspector-content').empty();
+    hideInspector();
     UpdateSelectionCounter();
 }
 
-function UpdateTooltip() {
+function hideInspector() {
+  $('.elements-are-selected').addClass('hide').removeClass('show');
+  $('.nothing-selected').addClass('show').removeClass('hide');
+}
+
+function showInspector() {
   $('.elements-are-selected').addClass('show').removeClass('hide');
   $('.nothing-selected').addClass('hide').removeClass('show');
+}
 
-  $('.tooltip-content').empty();
-  var tooltip = d3.select('.tooltip-content');
-  selected_data = d3.selectAll('.selected').data();
-  mean_tsnex = d3.mean(selected_data, function(d) { return d.tsneX})
-  mean_tsney = d3.mean(selected_data, function(d) { return d.tsneY})
+function UpdateInspector() {
+  if (d3.selectAll('.selected').empty()) {
+    hideInspector();
+    return;
+  }
+  else {
+    showInspector();
+    $('.inspector-content').empty();
+    var tooltip = d3.select('.tooltip-content');
+    $('.inspector-content').append("<p id='current_mode'>" + mode + "</p>");
 
-  $('.tooltip-content').append("<p id='tooltip_tsnex'>" + mean_tsnex + "</p>");
-  $('.tooltip-content').append("<p id='tooltip_tsney'>" + mean_tsney + "</p>");
+
+    selected_data = d3.selectAll('.selected').data();
+    mean_tsnex = d3.mean(selected_data, function(d) { return d.tsneX})
+    mean_tsney = d3.mean(selected_data, function(d) { return d.tsneY})
+
+    $('.inspector-content').append("<p id='tsnex_mean'>" + mean_tsnex + "</p>");
+    $('.inspector-content').append("<p id='tsney_mean'>" + mean_tsney + "</p>");
+  }
 }
 
 function GetMode() {
@@ -36,4 +52,5 @@ function GetMode() {
 function SwitchModes(new_mode) {
   mode = new_mode;
   reFillPoints();
+  UpdateInspector();
 }
