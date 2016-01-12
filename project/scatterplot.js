@@ -67,39 +67,12 @@ function drawScatterplot() {
   xFunc = x_scale;
   yFunc = y_scale;
 
-  svg.append('svg:rect')
+  d3.selectAll('.dot').remove();
+
+	svg.append('svg:rect')
   .attr('width', width) // the whole width of g/svg
   .attr('height', height) // the whole heigh of g/svg
   .attr("fill", "white")
-  .attr('pointer-events', 'all')
-  .on('mousedown', function() {
-      console.log("Mouse down event");
-      svg.selectAll(".drag-and-select").remove();
-
-      mouse_down = true;
-      mouse_down_coords = d3.mouse(this);
-
-      svg.append("rect")
-      .attr("class", "drag-and-select")
-      .attr("x", Math.round(mouse_down_coords[0]))
-      .attr("y", Math.round(mouse_down_coords[1]))
-      .attr("width", 0)
-      .attr("height", 0)
-			.attr("opacity", 0.5)
-      .on('mouseup', function() {
-        mouseUpHandler();
-      });
-    })
-  .on("mousemove", function() {
-    if(mouse_down) {
-      mouseMoveHandle(d3.mouse(this));
-    }
-  })
-  .on("mouseup", function() {
-    mouseUpHandler();
-  });
-
-  d3.selectAll('.dot').remove();
 
   points = svg.append("g")
     .attr("class", "plotArea")
@@ -112,7 +85,40 @@ function drawScatterplot() {
     .attr("cx", function(d) { return x_scale(d.tsneX); })
     .attr("cy", function(d) { return y_scale(d.tsneY); });
 
-		recalculateClusters();
+		svg.append('svg:rect')
+		.attr('class', 'mouse_rect')
+	  .attr('width', width) // the whole width of g/svg
+	  .attr('height', height) // the whole heigh of g/svg
+	  .attr("fill", "white")
+		.attr("opacity", "0.0")
+	  .attr('pointer-events', 'all')
+	  .on('mousedown', function() {
+	      console.log("Mouse down event");
+	      svg.selectAll(".drag-and-select").remove();
+
+	      mouse_down = true;
+	      mouse_down_coords = d3.mouse(this);
+	      d3.select('.plotArea').append("rect")
+	      .attr("class", "drag-and-select")
+	      .attr("x", Math.round(mouse_down_coords[0]))
+	      .attr("y", Math.round(mouse_down_coords[1]))
+	      .attr("width", 0)
+	      .attr("height", 0)
+				.attr("opacity", 0.5);
+	  })
+	  .on('mouseup', function() {
+	      mouseUpHandler();
+	  })
+	  .on("mousemove", function() {
+	    if(mouse_down) {
+	      mouseMoveHandle(d3.mouse(this));
+	    }
+	  })
+	  .on("mouseup", function() {
+	    mouseUpHandler();
+	  });
+
+	recalculateClusters();
 }
 
 function reFillPoints() {
