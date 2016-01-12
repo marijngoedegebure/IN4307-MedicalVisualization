@@ -1,3 +1,5 @@
+var mode = 'Clusters';
+
 $('#selected_count_text').after("<p id='selected_count'>" + d3.selectAll('.selected')[0].length + '</p>');
 
 function UpdateSelectionCounter() {
@@ -25,4 +27,13 @@ function UpdateTooltip() {
 
   $('.tooltip-content').append("<p id='tooltip_tsnex'>" + mean_tsnex + "</p>");
   $('.tooltip-content').append("<p id='tooltip_tsney'>" + mean_tsney + "</p>");
+}
+
+function GetMode() {
+  return mode;
+}
+
+function SwitchModes(new_mode) {
+  mode = new_mode;
+  reFillPoints();
 }

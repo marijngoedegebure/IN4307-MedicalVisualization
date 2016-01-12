@@ -53,12 +53,6 @@ var mouse_down_coords;
 function drawScatterplot() {
 
   data = tsne_data.nodes;
-  e = document.getElementById("amountOfClusters");
-  clusterNum = e.options[e.selectedIndex].value
-  finish = false;
-  for (var i = 0; i < data.length; i++) {
-	  clusterC[i] = i%clusterNum + 1
-  }
 
   var xExtent = d3.extent(data, function(d) { return d.tsneX; });
   var yExtent = d3.extent(data, function(d) { return d.tsneY; });
@@ -91,6 +85,7 @@ function drawScatterplot() {
       .attr("y", Math.round(mouse_down_coords[1]))
       .attr("width", 0)
       .attr("height", 0)
+			.attr("opacity", 0.5)
       .on('mouseup', function() {
         mouseUpHandler();
       });
@@ -115,11 +110,22 @@ function drawScatterplot() {
     .attr("class", "dot")
     .attr("r", 3.5)
     .attr("cx", function(d) { return x_scale(d.tsneX); })
-    .attr("cy", function(d) { return y_scale(d.tsneY); })
-    .attr("fill", "black");
+    .attr("cy", function(d) { return y_scale(d.tsneY); });
 
-	drawClusters();
-	calCentroid();
+		recalculateClusters();
+}
+
+function reFillPoints() {
+	if(GetMode()=='Selection') {
+		d3.selectAll(".selected")
+	    .attr("fill", "red");
+		d3.selectAll(".dot").filter("*:not(.selected)")
+			.attr("fill", "black");
+	}
+
+	if(GetMode()=='Clusters') {
+		drawClusters();
+	}
 }
 
 function drawClusters() {
@@ -136,6 +142,16 @@ function drawClusters() {
 		});
 }
 
+function recalculateClusters() {
+	e = document.getElementById("amountOfClusters");
+	clusterNum = e.options[e.selectedIndex].value
+	finish = false;
+	for (var i = 0; i < data.length; i++) {
+		clusterC[i] = i%clusterNum + 1
+	}
+	calCentroid();
+	drawClusters();
+}
 
 function calCentroid () {
 	var dataset = d3.selectAll('.dot')[0];
@@ -239,8 +255,8 @@ function mouseUpHandler() {
     .filter(function(element, index, array) {
       return insideRectangleCheck(element);
     })
-    .classed("selected", true)
-    .style("fill", "red");
+    .classed("selected", true);
+	reFillPoints();
   UpdateSelectionCounter();
   UpdateTooltip();
   svg.selectAll(".drag-and-select").remove();

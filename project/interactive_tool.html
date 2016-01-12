@@ -23,9 +23,9 @@
 				<div class="row">
 					<div class="columns small-12">
 						<ul class="tabs" data-tabs id="example-tabs">
-						  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Clusters</a></li>
-						  <li class="tabs-title"><a href="#panel2">Selection</a></li>
-						  <li class="tabs-title"><a href="#panel3">Settings</a></li>
+						  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true" onclick="SwitchModes('Clusters');">Clusters</a></li>
+						  <li class="tabs-title"><a href="#panel2" onclick="SwitchModes('Selection');">Selection</a></li>
+						  <li class="tabs-title"><a href="#panel3" onclick="SwitchModes('Settings');">Settings</a></li>
 						</ul>
 
 						<div class="tabs-content" data-tabs-content="example-tabs">
@@ -35,7 +35,7 @@
 							</div>
 							<div class="row">
 								<div class="columns small-12">
-									<select onchange="drawScatterplot()" id="amountOfClusters">
+									<select onchange="recalculateClusters()" id="amountOfClusters">
 										<option value=1>1</option>
 										<option value=2>2</option>
 										<option value=3>3</option>
@@ -105,8 +105,8 @@
     <script src="../libraries/foundation-6/js/app.js"></script>
 		<script type="text/javascript" src="../libraries/d3.v3.min.js" charset="utf-8"></script>
 		<script type="text/javascript" src="../libraries/data.js"></script>
-		<script type="text/javascript" src="scatterplot.js"></script>
 		<script type="text/javascript" src="interactive_tool.js"></script>
+		<script type="text/javascript" src="scatterplot.js"></script>
 	</body>
 	<div class="zurb-footer-bottom">
 		<div class="row">
