@@ -6,6 +6,22 @@ var global_y_scale_inspector;
 
 $('#selected_count_text').after("<p id='selected_count'>" + d3.selectAll('.selected')[0].length + '</p>');
 
+setupFeatureDorpdown();
+
+function setupFeatureDorpdown() {
+  var all_data = d3.selectAll('.dot').data();
+  for(var i = 0; i<32; i++) {
+    $('.feature-dropdown').append("<div class='switch feature-" + i +"'>");
+    $('.feature-'+i).append("<p class='feature-label'>Feature " + i  + "</p>");
+    $('.feature-'+i).append("<input class='switch-input' id='feature" + i + "-checkbox' type='checkbox' name='feature" + i + "-checkbox' onchange='featuredChecked("+i+");'>");
+    $('.feature-'+i).append(
+      "<label class='switch-paddle' for='feature" + i + "-checkbox'>" +
+      "<span class='show-for-sr'>Feature " + i + "</span>" +
+      "</label>");
+    $('.feature-dropdown').append("</div>");
+  }
+}
+
 function featuredChecked(feature) {
   if($("#feature" + feature + "-checkbox").is(":checked")) {
     createSVG(feature);
@@ -51,8 +67,6 @@ function UpdateInspector() {
   else {
     showInspector();
     var tooltip = d3.select('.tooltip-content');
-    $('.inspector-content').append("<p id='current_mode'>" + mode + "</p>");
-
     // Update drawn KDE's because of newly selected data
   }
 }

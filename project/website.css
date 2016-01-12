@@ -102,3 +102,9 @@ ul.tabs li {
   stroke: #000;
   stroke-width: 1.5px;
 }
+
+.feature-label {
+  color: #000;
+  float:left;
+  padding-right: 10px;
+}
