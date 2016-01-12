@@ -140,7 +140,10 @@ function drawClusters() {
 		.attr({
 			class : 
 			function (d, i) {
-				return d3.select(this).attr("class") + " " + clusterColor[clusterC[i]];
+				if(d3.select(this).classed("selection")) 
+					return "selection" + " " + "dot" + " " + clusterColor[clusterC[i]];
+				else
+					return "dot" + " " + clusterColor[clusterC[i]];
 			}
 		});
 }
@@ -244,6 +247,15 @@ function calDistance() {
 				clusterC[i] = cluster;
 				return clusterColor[cluster];
 		   }
+		})
+		.attr({
+			class : 
+			function (d, i) {
+				if(d3.select(this).classed("selection")) 
+					return "selection" + " " + "dot" + " " + clusterColor[clusterC[i]];
+				else
+					return "dot" + " " + clusterColor[clusterC[i]];
+			}
 		});
 	centroid = true;
 	if(!finish)
