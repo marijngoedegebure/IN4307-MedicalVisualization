@@ -10,6 +10,7 @@ var clusterC = [];
 
 var selectedCluster = ".none";
 
+var selectionMade = "";
 var finish = false;
 var centroidArr = [];
 
@@ -88,7 +89,23 @@ function drawScatterplot() {
     .attr("cy", function(d) { return y_scale(d.tsneY); })
 	.on("click", function() {
 		  clusterInfo(d3.select(this).attr("class"))
-	 });
+	 })
+	.on("mouseout", function() {
+		if (selectionMade === ('.'.concat(d3.select(this).attr("class").split(" ")[1]))) {
+			d3.selectAll('.'.concat(d3.select(this).attr("class").split(" ")[1]))
+				.style('opacity', 0.5)
+				.style("stroke-width", 2.0)
+		} else {
+			d3.selectAll('.'.concat(d3.select(this).attr("class").split(" ")[1]))
+				.style('opacity', 1)	
+				.style("stroke-width", 0.25)
+		}
+	})
+	.on("mouseover", function() {
+		d3.selectAll('.'.concat(d3.select(this).attr("class").split(" ")[1]))
+			.style('opacity', 0.5)
+			.style("stroke-width", 2.0)
+	});
 
   svg.append('svg:rect')
 	.attr('class', 'mouse_rect')
@@ -142,6 +159,8 @@ function reFillPoints() {
 function drawClusters() {
 	d3.selectAll('.dot')
 		.data(data)
+		.style('opacity', 1.0)
+		.style("stroke-width", 0.25)
 		.attr({
 			fill :
 			function(d,i){
@@ -343,7 +362,13 @@ function adjustSelectionBox(width, height, x, y) {
 
 function clusterInfo(classes) {
 	classname = ('.'.concat(classes.split(" ")[1]));
-	d3.selectAll(classname);
+	selectionMade = classname;
+	d3.selectAll('.dot')
+		.style('opacity', 1.0)
+		.style("stroke-width", 0.25)
+	d3.selectAll(classname)
+		.style('opacity', 0.5)
+		.style("stroke-width", 2.0)
 	selectedCluster = classname;
 	UpdateInspector();
 }

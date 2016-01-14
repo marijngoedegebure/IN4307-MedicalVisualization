@@ -40,6 +40,12 @@ function ClearSelection() {
 }
 
 function ResetClusterSelection() {
+  d3.selectAll('.dot')
+	.style('opacity', 1)	
+	.style("stroke-width", 0.25)
+	
+  selectionMade = "";
+  
   hideInspector();
   removeAllSVGs();
 }
