@@ -103,6 +103,12 @@ ul.tabs li {
   stroke-width: 1.5px;
 }
 
+.all-data-line {
+  fill: none;
+  stroke: #f00;
+  stroke-width: 1.5px;
+}
+
 .feature-label {
   color: #000;
   float:left;

@@ -89,6 +89,7 @@ function drawScatterplot() {
 	.on("click", function() {
 		  clusterInfo(d3.select(this).attr("class"))
 	 });
+	 all_data = d3.selectAll('.dot').data();
 
   svg.append('svg:rect')
 	.attr('class', 'mouse_rect')

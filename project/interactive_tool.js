@@ -6,10 +6,11 @@ var global_y_scale_inspector;
 
 $('#selected_count_text').after("<p id='selected_count'>" + d3.selectAll('.selected')[0].length + '</p>');
 
+var all_data;
 setupFeatureDropdown();
 
 function setupFeatureDropdown() {
-  var all_data = d3.selectAll('.dot').data();
+  all_data = d3.selectAll('.dot').data();
   for(var i = 1; i<=32; i++) {
     $('.feature-dropdown').append("<div class='switch feature-" + i +"'>");
     $('.feature-'+i).append("<p class='feature-label'>Feature " + i  + "</p>");
@@ -84,7 +85,7 @@ function UpdateInspector() {
   showInspector();
 }
 
-function drawKDE(current_data, svg_package){
+function drawKDE(current_data, filtered_all_data, svg_package){
   var x_scale_inspector = d3.scale.linear()
     .domain([0, 1])
     .range([0, svg_package.width_inspector]);
@@ -140,6 +141,11 @@ function drawKDE(current_data, svg_package){
   svg_package.svg.append("path")
     .datum(kde(current_data))
     .attr("class", "line")
+    .attr("d", line);
+
+  svg_package.svg.append("path")
+    .datum(kde(filtered_all_data))
+    .attr("class", "all-data-line")
     .attr("d", line);
 }
 
@@ -214,7 +220,11 @@ function createSingleSVG(feature_num, selected_data) {
     for(var i = 0;i<selected_data.length;i++) {
       feature_data.push(selected_data[i].expression[feature_num-1]);
     }
-    drawKDE(feature_data, svg_package);
+    var filtered_all_data = [];
+    for(var i = 0;i<all_data.length;i++) {
+      filtered_all_data.push(all_data[i].expression[feature_num-1]);
+    }
+    drawKDE(feature_data, filtered_all_data, svg_package);
 }
 
 function removeSVG(feature_num) {
