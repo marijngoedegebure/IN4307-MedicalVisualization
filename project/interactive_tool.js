@@ -101,19 +101,20 @@ function drawKDE(current_data, svg_package){
       .scale(y_scale_inspector)
       .orient("left");
 
-  svg_package.svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + svg_package.height_inspector + ")")
-    .call(xAxis_inspector)
-  .append("text")
-    .attr("class", "label")
-    .attr("x", svg_package.width_inspector)
-    .attr("y", -6)
-    .style("text-anchor", "end");
-
-  svg_package.svg.append("g")
-    .attr("class", "y axis")
-    .call(yAxis_inspector);
+  // Uncomment for axis
+  // svg_package.svg.append("g")
+  //   .attr("class", "x axis")
+  //   .attr("transform", "translate(0," + svg_package.height_inspector + ")")
+  //   .call(xAxis_inspector)
+  // .append("text")
+  //   .attr("class", "label")
+  //   .attr("x", svg_package.width_inspector)
+  //   .attr("y", -6)
+  //   .style("text-anchor", "end");
+  //
+  // svg_package.svg.append("g")
+  //   .attr("class", "y axis")
+  //   .call(yAxis_inspector);
 
   numHistBins = Math.ceil(Math.sqrt(current_data.length));
 
@@ -123,14 +124,15 @@ function drawKDE(current_data, svg_package){
 
   var histogram_data = histogram(current_data);
 
-  svg_package.svg.selectAll(".bar")
-      .data(histogram_data)
-    .enter().insert("rect", ".axis")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x_scale_inspector(d.x) + 1; })
-      .attr("y", function(d) { return y_scale_inspector(d.y); })
-      .attr("width", x_scale_inspector(histogram_data[0].dx + histogram_data[0].x) - x_scale_inspector(histogram_data[0].x) - 1)
-      .attr("height", function(d) { return svg_package.height_inspector - y_scale_inspector(d.y); });
+  // Uncomment for histogram
+  // svg_package.svg.selectAll(".bar")
+  //     .data(histogram_data)
+  //   .enter().insert("rect", ".axis")
+  //     .attr("class", "bar")
+  //     .attr("x", function(d) { return x_scale_inspector(d.x) + 1; })
+  //     .attr("y", function(d) { return y_scale_inspector(d.y); })
+  //     .attr("width", x_scale_inspector(histogram_data[0].dx + histogram_data[0].x) - x_scale_inspector(histogram_data[0].x) - 1)
+  //     .attr("height", function(d) { return svg_package.height_inspector - y_scale_inspector(d.y); });
 
   kde = kernelDensityEstimator(epanechnikovKernel(0.1), x_scale_inspector.ticks(100));
   global_x_scale_inspector = x_scale_inspector;
@@ -182,17 +184,19 @@ function SwitchModes(new_mode) {
 
 function createSingleSVG(feature_num, selected_data) {
   // Setup svg for inspector
-  var viewWidth_inspector = 500;
-  var viewHeight_inspector = 500;
+  var viewWidth_inspector = 250;
+  var viewHeight_inspector = 250;
 
-  var margin_inspector = {top: 20, right: 20, bottom: 30, left: 40};
+  var margin_inspector = {top: 20, right: 20, bottom: 20, left: 20};
   var width_inspector = viewWidth_inspector - margin_inspector.left - margin_inspector.right;
   var height_inspector = viewHeight_inspector - margin_inspector.top - margin_inspector.bottom;
   var windowRatio_inspector = .5;
 
   // Add integer i to differ between different svg's
-  var inspector_svg = d3.select(".inspector-vis").append("svg")
-    .attr("class", "inspector-svg-"+feature_num)
+  $('.inspector-vis').append("<div id='inspector-div-"+feature_num +"' class='inspector-div'>");
+  $("#inspector-div-"+feature_num).append("<p class='inspector-svg-para'>Feature " + feature_num + "</p>")
+  var inspector_svg = d3.select("#inspector-div-"+feature_num).append("svg")
+    .attr("class", "inspector-svg-"+feature_num + " inspector-svg")
   	.attr("width", viewWidth_inspector)
   	.attr("height", viewHeight_inspector)
     .append("g")
@@ -205,6 +209,7 @@ function createSingleSVG(feature_num, selected_data) {
       'svg': inspector_svg,
     }
     svgs.push(svg_package);
+    $('.inspector-vis').append("</div>");
     feature_data = [];
     for(var i = 0;i<selected_data.length;i++) {
       feature_data.push(selected_data[i].expression[feature_num-1]);
