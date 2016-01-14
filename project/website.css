@@ -108,3 +108,9 @@ ul.tabs li {
   float:left;
   padding-right: 10px;
 }
+
+.feature-dropdown {
+  height: auto !important;
+  max-height: 300px;
+  overflow: scroll;
+}

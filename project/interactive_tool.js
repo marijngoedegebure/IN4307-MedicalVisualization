@@ -10,7 +10,7 @@ setupFeatureDorpdown();
 
 function setupFeatureDorpdown() {
   var all_data = d3.selectAll('.dot').data();
-  for(var i = 0; i<32; i++) {
+  for(var i = 1; i<=32; i++) {
     $('.feature-dropdown').append("<div class='switch feature-" + i +"'>");
     $('.feature-'+i).append("<p class='feature-label'>Feature " + i  + "</p>");
     $('.feature-'+i).append("<input class='switch-input' id='feature" + i + "-checkbox' type='checkbox' name='feature" + i + "-checkbox' onchange='featuredChecked("+i+");'>");
