@@ -8,6 +8,8 @@ var clusterColor = ['purple', 'lime', 'blue', 'orangeRed', 'yellow','cyan', 'dar
 var centroidColor = ['purple', 'lime', 'blue', 'orangeRed', 'yellow','cyan', 'darkgreen', 'orange', 'silver', 'goldenrod', 'violet'];
 var clusterC = [];
 
+var selectedCluster = ".none";
+
 var finish = false;
 var centroidArr = [];
 
@@ -118,7 +120,7 @@ function drawScatterplot() {
 	}
 	})
 	.on("mouseup", function() {
-	mouseUpHandler();
+		mouseUpHandler();
 	});
 
 	recalculateClusters();
@@ -147,9 +149,9 @@ function drawClusters() {
 			;}
 		})
 		.attr({
-			class : 
+			class :
 			function (d, i) {
-				if(d3.select(this).classed("selected")) 
+				if(d3.select(this).classed("selected"))
 					return "dot" + " " + clusterColor[clusterC[i]] + " " + "selected";
 				else
 					return "dot" + " " + clusterColor[clusterC[i]];
@@ -166,6 +168,8 @@ function recalculateClusters() {
 	}
 	calCentroid();
 	drawClusters();
+	selectedCluster = ".none";
+	UpdateInspector();
 }
 
 function calCentroid () {
@@ -258,9 +262,9 @@ function calDistance() {
 		   }
 		})
 		.attr({
-			class : 
+			class :
 			function (d, i) {
-				if(d3.select(this).classed("selected")) 
+				if(d3.select(this).classed("selected"))
 					return "selected" + " " + "dot" + " " + clusterColor[clusterC[i]];
 				else
 					return "dot" + " " + clusterColor[clusterC[i]];
@@ -340,6 +344,8 @@ function adjustSelectionBox(width, height, x, y) {
 function clusterInfo(classes) {
 	classname = ('.'.concat(classes.split(" ")[1]));
 	d3.selectAll(classname);
+	selectedCluster = classname;
+	UpdateInspector();
 }
 
 function resize() {

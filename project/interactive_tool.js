@@ -6,9 +6,9 @@ var global_y_scale_inspector;
 
 $('#selected_count_text').after("<p id='selected_count'>" + d3.selectAll('.selected')[0].length + '</p>');
 
-setupFeatureDorpdown();
+setupFeatureDropdown();
 
-function setupFeatureDorpdown() {
+function setupFeatureDropdown() {
   var all_data = d3.selectAll('.dot').data();
   for(var i = 1; i<=32; i++) {
     $('.feature-dropdown').append("<div class='switch feature-" + i +"'>");
@@ -23,12 +23,6 @@ function setupFeatureDorpdown() {
 }
 
 function featuredChecked(feature) {
-  if($("#feature" + feature + "-checkbox").is(":checked")) {
-    createSVG(feature);
-  }
-  else {
-    removeSVG(feature);
-  }
   UpdateInspector();
 }
 
@@ -38,15 +32,22 @@ function UpdateSelectionCounter() {
 }
 
 function ClearSelection() {
-    d3.selectAll('.selected').classed("selected", false).style("fill", "black");
-    $('.inspector-content').empty();
+    d3.selectAll('.selected').classed("selected", false);
+    reFillPoints();
     hideInspector();
     UpdateSelectionCounter();
+    removeAllSVGs();
+}
+
+function ResetClusterSelection() {
+  hideInspector();
+  removeAllSVGs();
 }
 
 function RemoveClusters() {
-    e = document.getElementById("amountOfClusters").value = 1;
+  e = document.getElementById("amountOfClusters").value = 1;
 	recalculateClusters();
+  ResetClusterSelection();
 }
 
 function hideInspector() {
@@ -60,15 +61,27 @@ function showInspector() {
 }
 
 function UpdateInspector() {
-  if (d3.selectAll('.selected').empty()) {
-    hideInspector();
-    return;
+  if (mode == 'Clusters') {
+    if(selectedCluster==".none") {
+      hideInspector();
+      return;
+    }
+
+    if(d3.selectAll(selectedCluster).data().length == 0) {
+      ResetClusterSelection();
+    }
+    else {
+      updateSVGs(d3.selectAll(selectedCluster).data());
+    }
   }
   else {
-    showInspector();
-    var tooltip = d3.select('.tooltip-content');
-    // Update drawn KDE's because of newly selected data
+    if(d3.selectAll('.selected').data().length == 0) {
+      hideInspector();
+      return;
+    }
+    updateSVGs(d3.selectAll('.selected').data());
   }
+  showInspector();
 }
 
 function drawKDE(current_data, svg_package){
@@ -167,7 +180,7 @@ function SwitchModes(new_mode) {
   UpdateInspector();
 }
 
-function createSVG(feature_num) {
+function createSingleSVG(feature_num, selected_data) {
   // Setup svg for inspector
   var viewWidth_inspector = 500;
   var viewHeight_inspector = 500;
@@ -193,7 +206,6 @@ function createSVG(feature_num) {
     }
     svgs.push(svg_package);
     feature_data = [];
-    selected_data = d3.selectAll('.selected').data();
     for(var i = 0;i<selected_data.length;i++) {
       feature_data.push(selected_data[i].expression[feature_num-1]);
     }
@@ -207,4 +219,30 @@ function removeSVG(feature_num) {
       svgs.splice(i, 1);
     }
   }
+}
+
+function removeAllSVGs() {
+  svgs = [];
+  $('.inspector-vis').empty();
+}
+
+function getAllSelectedFeatures() {
+  var selected_features = []
+  for(var i = 1;i<=32;i++) {
+    if ($("#feature" + i + "-checkbox").is(":checked")) {
+      selected_features.push(i);
+    }
+  }
+  return selected_features;
+}
+
+function createSVGs(selected_features, selected_data) {
+  for(var i = 0; i<selected_features.length; i++) {
+    createSingleSVG(selected_features[i], selected_data);
+  }
+}
+
+function updateSVGs(selected_data) {
+  removeAllSVGs();
+  createSVGs(getAllSelectedFeatures(), selected_data);
 }
