@@ -89,10 +89,11 @@ function drawScatterplot() {
     .attr("cy", function(d) { return y_scale(d.tsneY); })
 	.on("click", function() {
 		  clusterInfo(d3.select(this).attr("class"))
+
 	 })
 	.on("mouseout", function() {
 		if (selectionMade === ('.'.concat(d3.select(this).attr("class").split(" ")[1]))) {
-			d3.selectAll('.'.concat(d3.select(this).attr("class").split(" ")[1]))
+			d3.selectAll(selectionMade)
 				.style('opacity', 0.5)
 				.style("stroke-width", 2.0)
 		} else {
@@ -106,6 +107,8 @@ function drawScatterplot() {
 			.style('opacity', 0.5)
 			.style("stroke-width", 2.0)
 	});
+	
+  all_data = d3.selectAll('.dot').data();
 
   svg.append('svg:rect')
 	.attr('class', 'mouse_rect')

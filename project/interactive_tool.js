@@ -6,10 +6,11 @@ var global_y_scale_inspector;
 
 $('#selected_count_text').after("<p id='selected_count'>" + d3.selectAll('.selected')[0].length + '</p>');
 
+var all_data;
 setupFeatureDropdown();
 
 function setupFeatureDropdown() {
-  var all_data = d3.selectAll('.dot').data();
+  all_data = d3.selectAll('.dot').data();
   for(var i = 1; i<=32; i++) {
     $('.feature-dropdown').append("<div class='switch feature-" + i +"'>");
     $('.feature-'+i).append("<p class='feature-label'>Feature " + i  + "</p>");
@@ -90,7 +91,7 @@ function UpdateInspector() {
   showInspector();
 }
 
-function drawKDE(current_data, svg_package){
+function drawKDE(current_data, filtered_all_data, svg_package){
   var x_scale_inspector = d3.scale.linear()
     .domain([0, 1])
     .range([0, svg_package.width_inspector]);
@@ -107,19 +108,20 @@ function drawKDE(current_data, svg_package){
       .scale(y_scale_inspector)
       .orient("left");
 
-  svg_package.svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + svg_package.height_inspector + ")")
-    .call(xAxis_inspector)
-  .append("text")
-    .attr("class", "label")
-    .attr("x", svg_package.width_inspector)
-    .attr("y", -6)
-    .style("text-anchor", "end");
-
-  svg_package.svg.append("g")
-    .attr("class", "y axis")
-    .call(yAxis_inspector);
+  // Uncomment for axis
+  // svg_package.svg.append("g")
+  //   .attr("class", "x axis")
+  //   .attr("transform", "translate(0," + svg_package.height_inspector + ")")
+  //   .call(xAxis_inspector)
+  // .append("text")
+  //   .attr("class", "label")
+  //   .attr("x", svg_package.width_inspector)
+  //   .attr("y", -6)
+  //   .style("text-anchor", "end");
+  //
+  // svg_package.svg.append("g")
+  //   .attr("class", "y axis")
+  //   .call(yAxis_inspector);
 
   numHistBins = Math.ceil(Math.sqrt(current_data.length));
 
@@ -129,14 +131,15 @@ function drawKDE(current_data, svg_package){
 
   var histogram_data = histogram(current_data);
 
-  svg_package.svg.selectAll(".bar")
-      .data(histogram_data)
-    .enter().insert("rect", ".axis")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x_scale_inspector(d.x) + 1; })
-      .attr("y", function(d) { return y_scale_inspector(d.y); })
-      .attr("width", x_scale_inspector(histogram_data[0].dx + histogram_data[0].x) - x_scale_inspector(histogram_data[0].x) - 1)
-      .attr("height", function(d) { return svg_package.height_inspector - y_scale_inspector(d.y); });
+  // Uncomment for histogram
+  // svg_package.svg.selectAll(".bar")
+  //     .data(histogram_data)
+  //   .enter().insert("rect", ".axis")
+  //     .attr("class", "bar")
+  //     .attr("x", function(d) { return x_scale_inspector(d.x) + 1; })
+  //     .attr("y", function(d) { return y_scale_inspector(d.y); })
+  //     .attr("width", x_scale_inspector(histogram_data[0].dx + histogram_data[0].x) - x_scale_inspector(histogram_data[0].x) - 1)
+  //     .attr("height", function(d) { return svg_package.height_inspector - y_scale_inspector(d.y); });
 
   kde = kernelDensityEstimator(epanechnikovKernel(0.1), x_scale_inspector.ticks(100));
   global_x_scale_inspector = x_scale_inspector;
@@ -144,6 +147,11 @@ function drawKDE(current_data, svg_package){
   svg_package.svg.append("path")
     .datum(kde(current_data))
     .attr("class", "line")
+    .attr("d", line);
+
+  svg_package.svg.append("path")
+    .datum(kde(filtered_all_data))
+    .attr("class", "all-data-line")
     .attr("d", line);
 }
 
@@ -174,31 +182,41 @@ function GetMode() {
 }
 
 function SwitchModes(new_mode) {
-  if(new_mode === 'Selection') {
-	  d3.select('.mouse_rect')
-		.attr("display", "")
-  } else {
-	  d3.select('.mouse_rect')
-		.attr("display", "none")
-  }
   mode = new_mode;
   reFillPoints();
   UpdateInspector();
+  
+  if(new_mode === 'Selection') {
+	  d3.select('.mouse_rect')
+		.attr("display", "")
+	  d3.selectAll('.dot')
+		.style('opacity', 1)	
+		.style("stroke-width", 0.25)
+  } else {
+	  d3.select('.mouse_rect')
+		.attr("display", "none")
+		if(!(selectionMade === ""))
+			d3.selectAll(selectionMade)
+				.style('opacity', 0.5)
+				.style("stroke-width", 2.0)
+  }
 }
 
 function createSingleSVG(feature_num, selected_data) {
   // Setup svg for inspector
-  var viewWidth_inspector = 500;
-  var viewHeight_inspector = 500;
+  var viewWidth_inspector = 250;
+  var viewHeight_inspector = 250;
 
-  var margin_inspector = {top: 20, right: 20, bottom: 30, left: 40};
+  var margin_inspector = {top: 20, right: 20, bottom: 20, left: 20};
   var width_inspector = viewWidth_inspector - margin_inspector.left - margin_inspector.right;
   var height_inspector = viewHeight_inspector - margin_inspector.top - margin_inspector.bottom;
   var windowRatio_inspector = .5;
 
   // Add integer i to differ between different svg's
-  var inspector_svg = d3.select(".inspector-vis").append("svg")
-    .attr("class", "inspector-svg-"+feature_num)
+  $('.inspector-vis').append("<div id='inspector-div-"+feature_num +"' class='inspector-div'>");
+  $("#inspector-div-"+feature_num).append("<p class='inspector-svg-para'>Feature " + feature_num + "</p>")
+  var inspector_svg = d3.select("#inspector-div-"+feature_num).append("svg")
+    .attr("class", "inspector-svg-"+feature_num + " inspector-svg")
   	.attr("width", viewWidth_inspector)
   	.attr("height", viewHeight_inspector)
     .append("g")
@@ -211,11 +229,16 @@ function createSingleSVG(feature_num, selected_data) {
       'svg': inspector_svg,
     }
     svgs.push(svg_package);
+    $('.inspector-vis').append("</div>");
     feature_data = [];
     for(var i = 0;i<selected_data.length;i++) {
       feature_data.push(selected_data[i].expression[feature_num-1]);
     }
-    drawKDE(feature_data, svg_package);
+    var filtered_all_data = [];
+    for(var i = 0;i<all_data.length;i++) {
+      filtered_all_data.push(all_data[i].expression[feature_num-1]);
+    }
+    drawKDE(feature_data, filtered_all_data, svg_package);
 }
 
 function removeSVG(feature_num) {

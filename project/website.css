@@ -103,6 +103,12 @@ ul.tabs li {
   stroke-width: 1.5px;
 }
 
+.all-data-line {
+  fill: none;
+  stroke: #f00;
+  stroke-width: 1.5px;
+}
+
 .feature-label {
   color: #000;
   float:left;
@@ -113,4 +119,18 @@ ul.tabs li {
   height: auto !important;
   max-height: 300px;
   overflow: scroll;
+}
+
+.inspector-svg {
+  background-color: #ddd;
+  margin: 10px;
+}
+
+.inspector-svg-para {
+  margin: 10px;
+  width: auto;
+}
+
+.inspector-div {
+  float:left;
 }
