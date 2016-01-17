@@ -92,9 +92,20 @@ function UpdateInspector() {
 }
 
 function drawKDE(current_data, filtered_all_data, svg_package){
-  var x_scale_inspector = d3.scale.linear()
-    .domain([0, 1])
-    .range([0, svg_package.width_inspector]);
+  var xExtentInspector = d3.extent(current_data, function(d) { return d; });
+
+  var x_scale_range_input = parseInt($('#x-axis-setting').val());
+  var x_scale_inspector;
+  if(x_scale_range_input) {
+    x_scale_inspector = d3.scale.linear()
+      .domain([0,x_scale_range_input])
+      .range([0, svg_package.width_inspector]);
+  }
+  else {
+    var x_scale_inspector = d3.scale.linear()
+      .domain(xExtentInspector)
+      .range([0, svg_package.width_inspector]);
+  }
 
   var y_scale_inspector = d3.scale.linear()
     .domain([0, 1])
@@ -109,19 +120,19 @@ function drawKDE(current_data, filtered_all_data, svg_package){
       .orient("left");
 
   // Uncomment for axis
-  // svg_package.svg.append("g")
-  //   .attr("class", "x axis")
-  //   .attr("transform", "translate(0," + svg_package.height_inspector + ")")
-  //   .call(xAxis_inspector)
-  // .append("text")
-  //   .attr("class", "label")
-  //   .attr("x", svg_package.width_inspector)
-  //   .attr("y", -6)
-  //   .style("text-anchor", "end");
-  //
-  // svg_package.svg.append("g")
-  //   .attr("class", "y axis")
-  //   .call(yAxis_inspector);
+  svg_package.svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + svg_package.height_inspector + ")")
+  .append("text")
+    .attr("class", "label")
+    .attr("x", svg_package.width_inspector)
+    .attr("y", -6)
+    .style("text-anchor", "end")
+    .text(x_scale_range_input ? x_scale_range_input : Math.round(xExtentInspector[1]).toFixed(2));
+
+  svg_package.svg.append("g")
+    .attr("class", "y axis")
+    .call(yAxis_inspector);
 
   numHistBins = Math.ceil(Math.sqrt(current_data.length));
 
@@ -132,14 +143,14 @@ function drawKDE(current_data, filtered_all_data, svg_package){
   var histogram_data = histogram(current_data);
 
   // Uncomment for histogram
-  // svg_package.svg.selectAll(".bar")
-  //     .data(histogram_data)
-  //   .enter().insert("rect", ".axis")
-  //     .attr("class", "bar")
-  //     .attr("x", function(d) { return x_scale_inspector(d.x) + 1; })
-  //     .attr("y", function(d) { return y_scale_inspector(d.y); })
-  //     .attr("width", x_scale_inspector(histogram_data[0].dx + histogram_data[0].x) - x_scale_inspector(histogram_data[0].x) - 1)
-  //     .attr("height", function(d) { return svg_package.height_inspector - y_scale_inspector(d.y); });
+  svg_package.svg.selectAll(".bar")
+      .data(histogram_data)
+    .enter().insert("rect", ".axis")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x_scale_inspector(d.x) + 1; })
+      .attr("y", function(d) { return y_scale_inspector(d.y); })
+      .attr("width", x_scale_inspector(histogram_data[0].dx + histogram_data[0].x) - x_scale_inspector(histogram_data[0].x) - 1)
+      .attr("height", function(d) { return svg_package.height_inspector - y_scale_inspector(d.y); });
 
   kde = kernelDensityEstimator(epanechnikovKernel(0.1), x_scale_inspector.ticks(100));
   global_x_scale_inspector = x_scale_inspector;

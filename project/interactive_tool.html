@@ -10,9 +10,6 @@
 		    <div class="top-bar-left">
 		      <ul class="dropdown menu" data-dropdown-menu>
 		        <li class="menu-text">Medical Visualization</li>
-		        <li><a href="interactive_tool.html">Interactive Tool</a></li>
-		        <li><a href="general_stats.html">General Statistics</a></li>
-		        <li><a href="general_info.html">General Information</a></li>
 		      </ul>
 		    </div>
 		    <div class="top-bar-right">
@@ -25,7 +22,6 @@
 						<ul class="tabs" data-tabs id="example-tabs">
 						  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true" onclick="SwitchModes('Clusters');">Clusters</a></li>
 						  <li class="tabs-title"><a href="#panel2" onclick="SwitchModes('Selection');">Selection</a></li>
-						  <li class="tabs-title"><a href="#panel3" onclick="SwitchModes('Settings');">Settings</a></li>
 						</ul>
 
 						<div class="tabs-content" data-tabs-content="example-tabs">
@@ -95,6 +91,8 @@
 			<div class="elements-are-selected hide">
 				<h3>Selection inspector</h3>
 				<p>Shows additional information based on the current selection.</p>
+				<p>X axis max value setting (press tab to enter and update graphs):</p>
+				<input id="x-axis-setting" type="text" name="x-axis" onchange="UpdateInspector();">
 				<button class="button" type="button" data-toggle="example-dropdown">Feature selection</button>
 				<div class="dropdown-pane feature-dropdown" id="example-dropdown" data-dropdown data-auto-focus="true">
 				</div>
