@@ -93,23 +93,23 @@ function UpdateInspector() {
 
 function drawKDE(current_data, filtered_all_data, svg_package){
   var xExtentInspector = d3.extent(current_data, function(d) { return d; });
-
+  var padding = 10;
   var x_scale_range_input = parseInt($('#x-axis-setting').val());
   var x_scale_inspector;
   if(x_scale_range_input) {
     x_scale_inspector = d3.scale.linear()
       .domain([0,x_scale_range_input])
-      .range([0, svg_package.width_inspector]);
+      .range([padding, svg_package.width_inspector]);
   }
   else {
     var x_scale_inspector = d3.scale.linear()
       .domain(xExtentInspector)
-      .range([0, svg_package.width_inspector]);
+      .range([padding, svg_package.width_inspector]);
   }
 
   var y_scale_inspector = d3.scale.linear()
     .domain([0, 1])
-    .range([svg_package.height_inspector, 0]);
+    .range([svg_package.height_inspector, padding]);
 
   var xAxis_inspector = d3.svg.axis()
       .scale(x_scale_inspector)
@@ -117,6 +117,7 @@ function drawKDE(current_data, filtered_all_data, svg_package){
 
   var yAxis_inspector = d3.svg.axis()
       .scale(y_scale_inspector)
+      .ticks(5)
       .orient("left");
 
   // Uncomment for axis
@@ -132,6 +133,7 @@ function drawKDE(current_data, filtered_all_data, svg_package){
 
   svg_package.svg.append("g")
     .attr("class", "y axis")
+    .attr("transform", "translate(" + padding + ",0)")
     .call(yAxis_inspector);
 
   numHistBins = Math.ceil(Math.sqrt(current_data.length));
@@ -155,13 +157,27 @@ function drawKDE(current_data, filtered_all_data, svg_package){
   kde = kernelDensityEstimator(epanechnikovKernel(0.1), x_scale_inspector.ticks(100));
   global_x_scale_inspector = x_scale_inspector;
   global_y_scale_inspector = y_scale_inspector;
+  kde_current_data = kde(current_data);
+  kde_current_data_adjusted = [];
+  for(var i = 0; i< kde_current_data.length ;i++) {
+    if (kde_current_data[i][1] < 1) {
+      kde_current_data_adjusted.push([kde_current_data[i][0],kde_current_data[i][1]]);
+    }
+  }
   svg_package.svg.append("path")
-    .datum(kde(current_data))
+    .datum(kde_current_data_adjusted)
     .attr("class", "line")
     .attr("d", line);
 
+  kde_all_data = kde(filtered_all_data);
+  kde_all_data_adjusted = [];
+  for(var i = 0; i< kde_all_data.length ;i++) {
+    if (kde_all_data[i][1] < 1) {
+      kde_all_data_adjusted.push([kde_all_data[i][0],kde_all_data[i][1]]);
+    }
+  }
   svg_package.svg.append("path")
-    .datum(kde(filtered_all_data))
+    .datum(kde_all_data_adjusted)
     .attr("class", "all-data-line")
     .attr("d", line);
 }

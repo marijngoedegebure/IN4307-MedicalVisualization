@@ -134,3 +134,8 @@ ul.tabs li {
 .inspector-div {
   float:left;
 }
+
+.axis text {
+	font-family: sans-serif;
+	font-size: 11px;
+}
