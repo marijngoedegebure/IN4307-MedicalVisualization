@@ -42,11 +42,11 @@ function ClearSelection() {
 
 function ResetClusterSelection() {
   d3.selectAll('.dot')
-	.style('opacity', 1)	
+	.style('opacity', 1)
 	.style("stroke-width", 0.25)
-	
+
   selectionMade = "";
-  
+
   hideInspector();
   removeAllSVGs();
 }
@@ -94,11 +94,14 @@ function UpdateInspector() {
 function drawKDE(current_data, filtered_all_data, svg_package){
   var xExtentInspector = d3.extent(current_data, function(d) { return d; });
   var padding = 10;
-  var x_scale_range_input = parseInt($('#x-axis-setting').val());
+  var x_scale_range_input = parseFloat($('#x-axis-setting').val());
   var x_scale_inspector;
   if(x_scale_range_input) {
+    if(x_scale_range_input < xExtentInspector[0]) {
+      x_scale_range_input = xExtentInspector[0] + 1;
+    }
     x_scale_inspector = d3.scale.linear()
-      .domain([0,x_scale_range_input])
+      .domain([xExtentInspector[0],x_scale_range_input])
       .range([padding, svg_package.width_inspector]);
   }
   else {
@@ -113,6 +116,7 @@ function drawKDE(current_data, filtered_all_data, svg_package){
 
   var xAxis_inspector = d3.svg.axis()
       .scale(x_scale_inspector)
+      .ticks(4)
       .orient("bottom");
 
   var yAxis_inspector = d3.svg.axis()
@@ -124,12 +128,7 @@ function drawKDE(current_data, filtered_all_data, svg_package){
   svg_package.svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + svg_package.height_inspector + ")")
-  .append("text")
-    .attr("class", "label")
-    .attr("x", svg_package.width_inspector)
-    .attr("y", -6)
-    .style("text-anchor", "end")
-    .text(x_scale_range_input ? x_scale_range_input : Math.round(xExtentInspector[1]).toFixed(2));
+    .call(xAxis_inspector);
 
   svg_package.svg.append("g")
     .attr("class", "y axis")
@@ -149,6 +148,7 @@ function drawKDE(current_data, filtered_all_data, svg_package){
       .data(histogram_data)
     .enter().insert("rect", ".axis")
       .attr("class", "bar")
+      .style('opacity', 0.5)
       .attr("x", function(d) { return x_scale_inspector(d.x) + 1; })
       .attr("y", function(d) { return y_scale_inspector(d.y); })
       .attr("width", x_scale_inspector(histogram_data[0].dx + histogram_data[0].x) - x_scale_inspector(histogram_data[0].x) - 1)
@@ -212,12 +212,12 @@ function SwitchModes(new_mode) {
   mode = new_mode;
   reFillPoints();
   UpdateInspector();
-  
+
   if(new_mode === 'Selection') {
 	  d3.select('.mouse_rect')
 		.attr("display", "")
 	  d3.selectAll('.dot')
-		.style('opacity', 1)	
+		.style('opacity', 1)
 		.style("stroke-width", 0.25)
   } else {
 	  d3.select('.mouse_rect')
